@@ -16,4 +16,4 @@ const db = mongoClient.db("PokemarketDb");
 export const usersCollection = db.collection("users");
 export const productsCollection = db.collection("products");
 export const salesCollection = db.collection("sales");
-export const sessionsCollection = db.collection("sessions")
+export const sessionsCollection = db.collection("sessions");
