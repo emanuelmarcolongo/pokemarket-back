@@ -8,15 +8,17 @@ export async function getProductsValidation (req, res, next) {
 
     const user = await sessionsCollection.findOne({token: token});
 
-    if (!authorization) {
-        return res.status(401).send("Headers authorization inválido")
+    try {
+        if (!authorization) {
+            return res.status(401).send("Headers authorization inválido")
+        }
+    
+        if (!user) {
+            return res.status(401).send("Token inválido")
+        }
+    } catch (e) {
+        res.sendStatus(500)
     }
-
-    if (!user) {
-        return res.status(401).send("Token inválido")
-    }
-
-   
 
     next();
 }
