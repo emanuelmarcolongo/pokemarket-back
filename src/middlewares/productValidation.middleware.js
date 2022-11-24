@@ -4,7 +4,7 @@ import { sessionsCollection } from "../database/db.js";
 export async function getProductsValidation (req, res, next) {
     const {authorization} = req.headers;
   
-    const token = authorization.replace("Bearer ", "");
+    const token = authorization?.replace("Bearer ", "");
 
     const user = await sessionsCollection.findOne({token: token});
 

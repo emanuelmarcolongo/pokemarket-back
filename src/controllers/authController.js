@@ -1,5 +1,7 @@
 import { v4 as uuid } from "uuid";
 import { sessionsCollection, usersCollection } from "../database/db.js";
+import bcrypt from "bcrypt";
+
 
 export async function postSignIn(req, res) {
   const user = res.locals.user;
