@@ -38,7 +38,7 @@ export async function signUpBodyValidation(req, res, next) {
     if (nameExists) {
       return res
         .status(409)
-        .send({ message: "Existe um usuario com esse nome" });
+        .send({ message: "Nome de usuário existente!" });
     }
 
     const emailExists = await usersCollection.findOne({ email: user.email });
