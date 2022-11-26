@@ -1,5 +1,6 @@
 import {usersCollection} from "../database/db.js";
 import {usersSchema} from "../models/usersSchema.js";
+import { sessionsCollection } from "../database/db.js";
 import bcrypt from "bcrypt";
 
 export async function singInBodyValidation(req, res, next) {
@@ -54,4 +55,30 @@ export async function signUpBodyValidation(req, res, next) {
 
   res.locals.user = user;
   next()
+}
+
+export async function authValidation (req, res, next) {
+  const {authorization} = req.headers;
+
+  const token = authorization?.replace("Bearer ", "");
+
+  const user = await sessionsCollection.findOne({token: token});
+
+  try {
+      if (!authorization) {
+          return res.status(401).send("Headers authorization inválido")
+      }
+  
+      if (!user) {
+          return res.status(401).send("Token inválido")
+      }
+  } catch (e) {
+      res.sendStatus(500)
+  }
+
+  delete user.password
+  
+  res.locals.user = user
+
+  next();
 }

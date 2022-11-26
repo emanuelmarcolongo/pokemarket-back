@@ -24,6 +24,8 @@ export async function postSignUp(req, res) {
 
   const passwordHash = bcrypt.hashSync(newUser.password, 10);
 
+  delete newUser.passwordCheck;
+
   try {
     await usersCollection.insertOne({
       ...newUser,
