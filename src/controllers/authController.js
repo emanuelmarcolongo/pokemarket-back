@@ -12,7 +12,7 @@ export async function postSignIn(req, res) {
       token,
       user: user._id,
     });
-    res.send({ token, name: user.name, email: user.email });
+    res.send({ token, name: user.name, email: user.email, url: user.url });
   } catch (e) {
     console.log(e);
     res.sendStatus(500);
