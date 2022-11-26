@@ -7,3 +7,4 @@ const router = Router();
 router.get("/products", getProductsValidation, getProducts);
 
 export default router;
+
