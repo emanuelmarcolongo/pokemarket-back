@@ -2,13 +2,13 @@ import { MongoClient } from "mongodb";
 import dotenv from "dotenv";
 dotenv.config();
 
-const mongoClient = new MongoClient(process.env.MONGO_LOCAL);
+const mongoClient = new MongoClient(process.env.MONGO_URI);
 
 try {
   await mongoClient.connect();
   console.log("MongoDB Connected");
 } catch (e) {
-  console.log(ErrorEvent);
+  console.log(e);
 }
 
 const db = mongoClient.db("PokemarketDb");
