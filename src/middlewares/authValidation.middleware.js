@@ -1,6 +1,5 @@
-import {usersCollection} from "../database/db.js";
-import {usersSchema} from "../models/usersSchema.js";
-import { sessionsCollection } from "../database/db.js";
+import { usersSchema } from "../models/usersSchema.js";
+import { sessionsCollection, usersCollection } from "../database/db.js";
 import bcrypt from "bcrypt";
 
 export async function singInBodyValidation(req, res, next) {
@@ -37,9 +36,7 @@ export async function signUpBodyValidation(req, res, next) {
   try {
     const nameExists = await usersCollection.findOne({ name: user.name });
     if (nameExists) {
-      return res
-        .status(409)
-        .send({ message: "Nome de usuário existente!" });
+      return res.status(409).send({ message: "Nome de usuário existente!" });
     }
 
     const emailExists = await usersCollection.findOne({ email: user.email });
@@ -54,31 +51,31 @@ export async function signUpBodyValidation(req, res, next) {
   }
 
   res.locals.user = user;
-  next()
+  next();
 }
 
-export async function authValidation (req, res, next) {
-  const {authorization} = req.headers;
+export async function authValidation(req, res, next) {
+  const { authorization } = req.headers;
+
 
   const token = authorization?.replace("Bearer ", "");
-
-  const user = await sessionsCollection.findOne({token: token});
-
+  const session = await sessionsCollection.findOne({ token: token });
+  console.log(session)
   try {
-      if (!authorization) {
-          return res.status(401).send("Headers authorization inválido")
-      }
-  
-      if (!user) {
-          return res.status(401).send("Token inválido")
-      }
-  } catch (e) {
-      res.sendStatus(500)
-  }
+    if (!authorization) {
+      return res.status(401).send("Headers authorization inválido");
+    }
 
-  delete user.password
-  
-  res.locals.user = user
+    if (!session) {
+      return res.status(401).send("Token inválido");
+    }
+
+    const user = await usersCollection.findOne({ _id: session.user });
+    delete user.password;
+    res.locals.user = user;
+  } catch (e) {
+    res.sendStatus(500);
+  }
 
   next();
 }
