@@ -24,7 +24,7 @@ export async function getSale(req, res) {
     const sales = await salesCollection.find({email: user.email}).toArray();
     res.send(sales)
   } catch (e) {
-    console.log("erro aqui");
+    console.log(e);
     res.sendStatus(500);
   }
 }

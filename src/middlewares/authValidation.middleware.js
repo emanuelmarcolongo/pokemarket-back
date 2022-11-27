@@ -60,7 +60,6 @@ export async function authValidation(req, res, next) {
 
   const token = authorization?.replace("Bearer ", "");
   const session = await sessionsCollection.findOne({ token: token });
-  console.log(session)
   try {
     if (!authorization) {
       return res.status(401).send("Headers authorization inválido");

@@ -4,6 +4,7 @@ import cors from "cors";
 import authRoutes from './routes/authRoutes.js'
 import productsRoutes from "./routes/productsRoutes.js"
 import saleRoutes from "./routes/saleRoutes.js"
+import adressRoutes from "./routes/adressRoutes.js"
 dotenv.config();
 
 const app = express();
@@ -12,6 +13,7 @@ app.use(cors());
 app.use(authRoutes);
 app.use(productsRoutes);
 app.use(saleRoutes);
+app.use(adressRoutes)
 
 
 

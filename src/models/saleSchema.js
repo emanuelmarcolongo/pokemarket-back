@@ -6,6 +6,6 @@ export  const saleSchema = joi.object({
     products: joi.array().required(),
     adress: joi.required(),
     paymentMethod: joi.string().required(),
-    total: joi.required(),
-    time: joi.required()
+    total: joi.number().required(),
+    time: joi.string().required()
 })
